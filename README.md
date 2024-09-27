@@ -12,6 +12,9 @@ Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual C
   <input type="button" value="Generate" onclick="generateOutput()">
 </form>
 
+# Output
+<div id="output"></div>
+
 # Customize Display
 <div class="row">
   <div class="column">
@@ -34,8 +37,5 @@ Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual C
     <input type="color" id="rtColor" value="#404040" oninput="updateColors()">
   </div>
 </div>
-
-# Output
-<div id="output"></div>
 
 <script src="./assets/js/script.js"></script>
