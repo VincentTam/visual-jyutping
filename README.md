@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="/assets/css/style.css">
-<script src="/assets/js/script.js"></script>
+<link rel="stylesheet" href="./assets/css/style.css">
+<script src="./assets/js/script.js"></script>
 
 # Chinese Characters with Visual Jyutping
 Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual Cantonese Fonts](https://visual-fonts.com/).
