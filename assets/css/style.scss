@@ -3,16 +3,16 @@
 
 @import "{{ site.theme }}";
 
-textarea {
+#inputForm .textarea {
   width: 100%;
 }
 
-ruby {
-  font-size: 32px;
+#output ruby {
+  fo nt-size: 32px;
   margin: 5px;
 }
 
-rt {
+#output rt {
   font-size: 20px;
   color: #404040;
 }
