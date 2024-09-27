@@ -12,7 +12,7 @@ Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual C
   <input type="button" value="Generate" onclick="generateOutput()">
 </form>
 
-# Output
+# Rendered output
 <div id="output"></div>
 
 # Customize Display
