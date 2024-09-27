@@ -1,0 +1,11 @@
+#output {
+  padding: 20px;
+}
+ruby {
+  font-size: 24px;
+  margin: 5px;
+}
+rt {
+  font-size: 12px;
+  color: grey;
+}
