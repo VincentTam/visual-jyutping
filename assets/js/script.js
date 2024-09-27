@@ -41,9 +41,10 @@ function updateStyles() {
   const rubyFontSize = document.getElementById('rubyFontSize').value + 'px';
   const rtFontSize = document.getElementById('rtFontSize').value + 'px';
   const rubyMargin = document.getElementById('rubyMargin').value + 'px';
-
-  const rubies = document.querySelectorAll('ruby');
-  const rts = document.querySelectorAll('rt');
+  
+  const outputDiv = document.getElementById('output');
+  const rubies = outputDiv.querySelectorAll('ruby');
+  const rts = outputDiv.querySelectorAll('rt');
 
   rubies.forEach(ruby => {
     ruby.style.fontSize = rubyFontSize;
@@ -63,8 +64,8 @@ function updateColors() {
   const outputDiv = document.getElementById('output');
   outputDiv.style.backgroundColor = bgColor;
 
-  const rubies = document.querySelectorAll('ruby');
-  const rts = document.querySelectorAll('rt');
+  const rubies = outputDiv.querySelectorAll('ruby');
+  const rts = outputDiv.querySelectorAll('rt');
 
   rubies.forEach(ruby => {
     ruby.style.color = rubyColor;
