@@ -17,13 +17,13 @@ Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual C
 
 ### Customize Display
 <label for="rubyFontSize">Ruby Font Size:</label>
-<input type="range" id="rubyFontSize" min="10" max="40" value="24" oninput="updateStyles()"><br>
+<input type="range" id="rubyFontSize" min="10" max="40" value="32" oninput="updateStyles()"><br>
 
 <label for="rtFontSize">RT (Jyutping) Font Size:</label>
-<input type="range" id="rtFontSize" min="8" max="20" value="12" oninput="updateStyles()"><br>
+<input type="range" id="rtFontSize" min="8" max="20" value="20" oninput="updateStyles()"><br>
 
 <label for="rubyMargin">Ruby Margin:</label>
-<input type="range" id="rubyMargin" min="0" max="20" value="5" oninput="updateStyles()"><br><br>
+<input type="range" id="rubyMargin" min="0" max="20" value="8" oninput="updateStyles()"><br><br>
 
 <label for="bgColor">Background Color:</label>
 <input type="color" id="bgColor" value="#ffffff" oninput="updateColors()"><br>
