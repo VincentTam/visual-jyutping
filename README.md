@@ -1,5 +1,5 @@
 # Chinese Characters with Visual Jyutping
-Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by ![Visual Cantonese Fonts](https://visual-fonts.com/).
+Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual Cantonese Fonts](https://visual-fonts.com/).
 
 <form id="inputForm">
   <label for="chineseInput">Chinese Input:</label><br>
