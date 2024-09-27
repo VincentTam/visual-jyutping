@@ -3,14 +3,36 @@
 
 @import "{{ site.theme }}";
 
-#output {
-  padding: 20px;
+textarea {
+  width: 100%;
 }
+
 ruby {
-  font-size: 24px;
+  font-size: 32px;
   margin: 5px;
 }
+
 rt {
-  font-size: 12px;
-  color: grey;
+  font-size: 20px;
+  color: #404040;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
 }
