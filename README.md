@@ -1,7 +1,4 @@
-<link rel="stylesheet" href="./assets/css/style.css">
-<script src="./assets/js/script.js"></script>
-
-# Chinese Characters with Visual Jyutping
+# Introduction
 Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual Cantonese Fonts](https://visual-fonts.com/).
 
 <form id="inputForm">
@@ -15,7 +12,7 @@ Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual C
   <input type="button" value="Generate" onclick="generateOutput()">
 </form>
 
-### Customize Display
+# Customize Display
 <label for="rubyFontSize">Ruby Font Size:</label>
 <input type="range" id="rubyFontSize" min="10" max="40" value="32" oninput="updateStyles()"><br>
 
@@ -33,4 +30,7 @@ Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual C
 <label for="rtColor">RT (Jyutping) Color:</label>
 <input type="color" id="rtColor" value="#404040" oninput="updateColors()"><br><br>
 
+# Output
 <div id="output"></div>
+
+<script src="./assets/js/script.js"></script>
