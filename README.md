@@ -4,15 +4,13 @@ Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual C
 <form id="inputForm">
   <label for="chineseInput">Chinese Input:</label><br>
   <textarea id="chineseInput" rows="3" cols="30">即時新聞</textarea><br><br>
-
-  <label for="jyutpingInput">Jyutping Input:</label>
-  (<a href="https://www.cantonesetools.org/en/cantonese-to-jyutping" target="_blank">Generate Jyutping from Cantonese Tools</a>)<br>
-  <textarea id="jyutpingInput" rows="3" cols="30">zik1 si4 san1 man4</textarea><br><br>
-
   <input type="button" value="Generate" onclick="generateOutput()">
 </form>
 
 # Rendered output
+<p>Generated Jyutping</p>
+<div id="jyutpingOutput"></div>
+
 <div id="output"></div>
 
 # Customize Display
