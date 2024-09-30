@@ -1,8 +1,8 @@
 // URL to your raw JSON file on GitHub
 const jsonUrl = './assets/js/mandarin_cantonese_data.json';
 
-// Load the JSON dictionary and return the Jyutping for an input string
-async function getJyutping(inputString) {
+// Load JSON dictionary and return 2D array [[chinChar, jyut6ping3]]
+async function getJyutping(inputChinString) {
   try {
     // Fetch the dictionary from the external JSON file
     const response = await fetch(jsonUrl);  // Adjust path as needed
@@ -12,25 +12,25 @@ async function getJyutping(inputString) {
     const jyutpingWordMap = data.jyutping_word_map;
 
     // Split the input string into individual characters or phrases
-    const characters = inputString.split('');
+    const chinChars = inputChinString.split('');
 
-    // Initialize an array to hold the Jyutping results
+    // Initialize an array to hold the resulting 2D Jyutping array
     let jyutpingResult = [];
 
     // Iterate through each character or phrase in the input string
-    characters.forEach(character => {
-      // Check if the character exists in the Jyutping word map
-      if (jyutpingWordMap[character]) {
-        // Add the Jyutping for the character to the result
-        jyutpingResult.push(jyutpingWordMap[character].join(' '));
+    chinChars.forEach(chinChar => {
+      // Check if the Chinese character exists in the Jyutping word map
+      if (jyutpingWordMap[chinChar]) {
+        // Add the Jyutping for the Chinese character to the result
+        jyutpingResult.push([chinChar, jyutpingWordMap[chinChar].join(' ')]);
       } else {
         // If no match is found, add a placeholder or leave it blank
-        jyutpingResult.push(`[No Jyutping for ${character}]`);
+        jyutpingResult.push([chinChar, '']);
       }
     });
 
     // Return the concatenated Jyutping results
-    return jyutpingResult.join(' ');
+    return jyutpingResult;
   } catch (error) {
     console.error('Error fetching or processing the JSON:', error);
   }
@@ -55,20 +55,20 @@ function replaceToneSymbol(syllable) {
 
 async function generateOutput() {
   const chineseInput = document.getElementById('chineseInput').value;
-  const jyutpingString = await getJyutping(chineseInput);
-  document.getElementById("jyutpingOutput").textContent = jyutpingString;
-  const jyutpingArray = jyutpingString.split(' ');
+  const jyutpingArray = await getJyutping(chineseInput);
+  // document.getElementById("jyutpingOutput").textContent = jyutpingArray;
+  // const jyutpingArray = jyutpingArray.split(' ');
 
-  // Check if the number of Chinese characters matches the Jyutping syllables
-  if (chineseInput.length !== jyutpingArray.length) {
-    alert('The number of Chinese characters and Jyutping syllables does not match.');
-    return;
-  }
+  // // Check if the number of Chinese characters matches the Jyutping syllables
+  // if (chineseInput.length !== jyutpingArray.length) {
+  //   alert('The number of Chinese characters and Jyutping syllables does not match.');
+  //   return;
+  // }
 
   let result = '';
-  for (let i = 0; i < chineseInput.length; i++) {
-    const jyutpingWithTone = replaceToneSymbol(jyutpingArray[i]);
-    result += `<ruby>${chineseInput[i]}<rt>${jyutpingWithTone}</rt></ruby> `;
+  for (let i = 0; i < jyutpingArray.length; i++) {
+    const jyutpingWithTone = replaceToneSymbol(jyutpingArray[i][1]);
+    result += `<ruby>${jyutpingArray[i][0]}<rt>${jyutpingWithTone}</rt></ruby> `;
   }
 
   document.getElementById('output').innerHTML = result;
