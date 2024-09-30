@@ -4,7 +4,7 @@ Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual C
 <form id="inputForm">
   <label for="chineseInput">Chinese Input:</label><br>
   <textarea id="chineseInput" rows="5" cols="30">秋曉乍來禾已熟，聖泉永溢液偏甘。</textarea><br>
-  <input type="button" id="generateBtn" class="btn" value="Generate Jyutˍ₆ping-₃">
+  <input type="button" id="generateBtn" class="btn" value="Generate Jyutˍ₆ping˗₃">
 </form>
 
 <div id="errMsg"></div>
