@@ -3,7 +3,7 @@
 
 @import "{{ site.theme }}";
 
-#inputForm .textarea {
+#inputForm textarea {
   width: 100%;
 }
 
@@ -15,6 +15,10 @@
 #output rt {
   font-size: 20px;
   color: #404040;
+}
+
+#errMsg {
+  color: #C30000;
 }
 
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
