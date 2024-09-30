@@ -33,6 +33,7 @@ async function getJyutping(inputChinString) {
     return jyutpingResult;
   } catch (error) {
     console.error('Error fetching or processing the JSON:', error);
+    document.getElementById('errMsg').textContent = 'Error fetching or processing the JSON';
   }
 }
 
