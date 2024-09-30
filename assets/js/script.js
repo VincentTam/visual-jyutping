@@ -1,7 +1,7 @@
 // URL to your raw JSON file on GitHub
 const jsonUrl = './assets/js/mandarin_cantonese_data.json';
 
-// Load JSON dictionary and return 2D array [[chinChar, jyut6ping3]]
+// Load JSON dict & return 2D array [[chinChar, jyut6ping3, jyutˍ₆ping-₃]]
 async function getJyutping(inputChinString) {
   try {
     // Fetch the dictionary from the external JSON file
@@ -21,11 +21,11 @@ async function getJyutping(inputChinString) {
     chinChars.forEach(chinChar => {
       // Check if the Chinese character exists in the Jyutping word map
       if (jyutpingWordMap[chinChar]) {
-        // Add the Jyutping for the Chinese character to the result
+        // Add [chinChar, jyut6ping3] to the resulting 2D Jyutping array
         jyutpingResult.push([chinChar, jyutpingWordMap[chinChar].join(' ')]);
       } else {
-        // If no match is found, add a placeholder or leave it blank
-        jyutpingResult.push([chinChar, '']);
+        // If no match is found, add [chinChar, chinChar] instead
+        jyutpingResult.push([chinChar, chinChar]);
       }
     });
 
@@ -61,19 +61,25 @@ async function generateOutput() {
   const chineseInput = document.getElementById('chineseInput').value;
   const jyutpingArray = await getJyutping(chineseInput);
 
-  const jyutpingOutputDiv = document.getElementById('jyutpingOutput');
-
-  let result = '';
+  // Generate final output strings
+  let htmlOutput = '';
+  let jyutpingOutput = '';
+  let jyutpingwTOutput = '';
   for (let i = 0; i < jyutpingArray.length; i++) {
-    const jyutpingWithTone = replaceToneSymbol(jyutpingArray[i][1]);
-    result += `<ruby>${jyutpingArray[i][0]}<rt>${jyutpingWithTone}</rt></ruby> `;
+    const jyutpingStr = jyutpingArray[i][1];
+    const jyutpingWithTone = replaceToneSymbol(jyutpingStr);
+    htmlOutput += isJyutPing(jyutpingStr) ?
+      `<ruby>${jyutpingArray[i][0]}<rt>${jyutpingWithTone}</rt></ruby> ` :
+      jyutpingStr === '\n' ? '<br>' : jyutpingStr;
     // Also store the Jyutping with IPA tone letter into the 2D Jyutping array
     jyutpingArray[i].push(jyutpingWithTone);
-    jyutpingOutputDiv.textContent += jyutpingWithTone + ' ';
+    jyutpingOutput += jyutpingStr + (isJyutPing(jyutpingStr) ? ' ' : '');
+    jyutpingwTOutput += jyutpingWithTone + (isJyutPing(jyutpingStr) ? ' ' : '');
   }
 
   const outputDiv = document.getElementById('output');
-  outputDiv.innerHTML = result;
+  outputDiv.innerHTML = htmlOutput;
+
   // Create copy buttons
   outputDiv.appendChild(document.createElement('br'));
   const copyJPBtn = document.createElement("button");
@@ -86,8 +92,17 @@ async function generateOutput() {
   outputDiv.appendChild(copyJPwTBtn);
   const copyAllBtn = document.createElement("button");
   copyAllBtn.setAttribute('id', 'copyAllBtn');
-  copyAllBtn.textContent = "Copy all";
+  copyAllBtn.textContent = "Copy all text";
   outputDiv.appendChild(copyAllBtn);
+  const copyHTMLBtn = document.createElement("button");
+  copyHTMLBtn.setAttribute('id', 'copyHTMLBtn');
+  copyHTMLBtn.textContent = "Copy HTML";
+  outputDiv.appendChild(copyHTMLBtn);
+
+  // Add listeners to each button
+  copyJPBtn.addEventListener('click', (e) => {copyToClipboard(jyutpingOutput)});
+  copyJPwTBtn.addEventListener('click', (e) => {copyToClipboard(jyutpingwTOutput)});
+  copyHTMLBtn.addEventListener('click', (e) => {copyToClipboard(htmlOutput)});
   
   updateStyles(); // Apply any existing styles
   updateColors(); // Apply existing color settings
@@ -130,4 +145,13 @@ function updateColors() {
   rts.forEach(rt => {
     rt.style.color = rtColor;
   });
+}
+
+function isJyutPing(string) {
+  return /^[A-Za-z]+[1-6]$/.test(string);
+}
+
+function copyToClipboard(string) {
+  navigator.clipboard.writeText(string);
+  document.getElementById('copyMsg').textContent = 'Text copied.';
 }
