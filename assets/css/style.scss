@@ -7,6 +7,10 @@
   width: 100%;
 }
 
+#output {
+  padding: 20px;
+}
+
 #output ruby {
   font-size: 32px;
   margin: 5px;
@@ -15,6 +19,12 @@
 #output rt {
   font-size: 20px;
   color: #404040;
+}
+
+.btn {
+  margin: 5px;
+  font-size: medium;
+  height: 4ex;
 }
 
 #errMsg {

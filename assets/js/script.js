@@ -83,18 +83,22 @@ async function generateOutput() {
   // Create copy buttons
   outputDiv.appendChild(document.createElement('br'));
   const copyJPBtn = document.createElement("button");
+  copyJPBtn.classList.add("btn");
   copyJPBtn.setAttribute('id', 'copyJPBtn');
   copyJPBtn.textContent = "Copy Jyutping";
   outputDiv.appendChild(copyJPBtn);
   const copyJPwTBtn = document.createElement("button");
+  copyJPwTBtn.classList.add("btn");
   copyJPwTBtn.setAttribute('id', 'copyJPwTBtn');
   copyJPwTBtn.textContent = "Copy Jyutˍ₆ping-₃";
   outputDiv.appendChild(copyJPwTBtn);
   const copyAllBtn = document.createElement("button");
+  copyAllBtn.classList.add("btn");
   copyAllBtn.setAttribute('id', 'copyAllBtn');
   copyAllBtn.textContent = "Copy all text";
   outputDiv.appendChild(copyAllBtn);
   const copyHTMLBtn = document.createElement("button");
+  copyHTMLBtn.classList.add("btn");
   copyHTMLBtn.setAttribute('id', 'copyHTMLBtn');
   copyHTMLBtn.textContent = "Copy HTML";
   outputDiv.appendChild(copyHTMLBtn);
