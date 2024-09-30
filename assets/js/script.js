@@ -56,22 +56,35 @@ function replaceToneSymbol(syllable) {
 async function generateOutput() {
   const chineseInput = document.getElementById('chineseInput').value;
   const jyutpingArray = await getJyutping(chineseInput);
-  // document.getElementById("jyutpingOutput").textContent = jyutpingArray;
-  // const jyutpingArray = jyutpingArray.split(' ');
 
-  // // Check if the number of Chinese characters matches the Jyutping syllables
-  // if (chineseInput.length !== jyutpingArray.length) {
-  //   alert('The number of Chinese characters and Jyutping syllables does not match.');
-  //   return;
-  // }
+  const jyutpingOutputDiv = document.getElementById('jyutpingOutput');
 
   let result = '';
   for (let i = 0; i < jyutpingArray.length; i++) {
     const jyutpingWithTone = replaceToneSymbol(jyutpingArray[i][1]);
     result += `<ruby>${jyutpingArray[i][0]}<rt>${jyutpingWithTone}</rt></ruby> `;
+    // Also store the Jyutping with IPA tone letter into the 2D Jyutping array
+    jyutpingArray[i].push(jyutpingWithTone);
+    jyutpingOutputDiv.textContent += jyutpingWithTone + ' ';
   }
 
-  document.getElementById('output').innerHTML = result;
+  const outputDiv = document.getElementById('output');
+  outputDiv.innerHTML = result;
+  // Create copy buttons
+  outputDiv.appendChild(document.createElement('br'));
+  const copyJPBtn = document.createElement("button");
+  copyJPBtn.setAttribute('id', 'copyJPBtn');
+  copyJPBtn.textContent = "Copy Jyutping";
+  outputDiv.appendChild(copyJPBtn);
+  const copyJPwTBtn = document.createElement("button");
+  copyJPwTBtn.setAttribute('id', 'copyJPwTBtn');
+  copyJPwTBtn.textContent = "Copy Jyutˍ₆ping-₃";
+  outputDiv.appendChild(copyJPwTBtn);
+  const copyAllBtn = document.createElement("button");
+  copyAllBtn.setAttribute('id', 'copyAllBtn');
+  copyAllBtn.textContent = "Copy all";
+  outputDiv.appendChild(copyAllBtn);
+  
   updateStyles(); // Apply any existing styles
   updateColors(); // Apply existing color settings
 }
