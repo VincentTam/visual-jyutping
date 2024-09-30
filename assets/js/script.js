@@ -92,6 +92,8 @@ async function generateOutput() {
     jyutpingwTDCOutput += jyutpingWithToneDC + (isJyutPing(jyutpingStr) ? ' ' : '');
   }
 
+  const allOutput = generateAllOutput(jyutpingArray);
+
   const outputDiv = document.getElementById('output');
   outputDiv.innerHTML = htmlOutput;
 
@@ -127,6 +129,7 @@ async function generateOutput() {
   copyJPBtn.addEventListener('click', (e) => {copyToClipboard(jyutpingOutput)});
   copyJPwTBtn.addEventListener('click', (e) => {copyToClipboard(jyutpingwTOutput)});
   copyJPwTDCBtn.addEventListener('click', (e) => {copyToClipboard(jyutpingwTDCOutput)});
+  copyAllBtn.addEventListener('click', (e) => {copyToClipboard(allOutput)});
   copyHTMLBtn.addEventListener('click', (e) => {copyToClipboard(htmlOutput)});
   
   updateStyles(); // Apply any existing styles
@@ -179,4 +182,31 @@ function isJyutPing(string) {
 function copyToClipboard(string) {
   navigator.clipboard.writeText(string);
   document.getElementById('copyMsg').textContent = 'Text copied.';
+}
+
+function generateAllOutput(jyutpingArray) {
+  let result = '';
+  let oddLine = '';
+  let evenLine = '';
+  jyutpingArray.forEach(array => {
+    let jyutping = array[1];
+    if(isJyutPing(jyutping)) {
+      const jyutpingwT = array[3];
+      const leftPadding = Math.floor((11 - jyutpingwT.length) / 2);
+      const rightPadding = 10 - leftPadding - jyutpingwT.length;
+      oddLine += ' '.repeat(leftPadding) + jyutpingwT + ' '.repeat(rightPadding);
+      evenLine += '    ' + array[0] + '    ';
+    } else {
+      oddLine += array[1];
+      evenLine += array[1];
+    }
+  });
+  const oddLines = oddLine.split('\n');
+  const evenLines = evenLine.split('\n');
+  for (let i = 0; i < oddLines.length; i++) {
+    const oddLine = oddLines[i];
+    const evenLine = evenLines[i];
+    result += oddLine + '\n' + evenLine + '\n';
+  }
+  return result;
 }
