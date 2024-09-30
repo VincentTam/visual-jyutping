@@ -53,6 +53,9 @@ function replaceToneSymbol(syllable) {
   return syllable; // Return unchanged if no tone number
 }
 
+const generateBtn = document.getElementById('generateBtn');
+generateBtn.addEventListener('click', generateOutput);
+
 async function generateOutput() {
   const chineseInput = document.getElementById('chineseInput').value;
   const jyutpingArray = await getJyutping(chineseInput);
