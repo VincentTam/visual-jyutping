@@ -1,7 +1,7 @@
 // URL to your raw JSON file on GitHub
 const jsonUrl = './assets/js/mandarin_cantonese_data.json';
 
-// Load JSON dict & return 2D array [[chinChar, jyut6ping3, jyutˍ₆ping-₃]]
+// Load JSON dict & return 2D array [[chinChar, jyut6ping3, jyutˍ₆ping˗₃]]
 async function getJyutping(inputChinString) {
   try {
     // Fetch the dictionary from the external JSON file
@@ -37,8 +37,9 @@ async function getJyutping(inputChinString) {
   }
 }
 
-const toneMap = {
-  '1': '¯¹',
+// For Discord
+const dcToneMap = {
+  '1': 'ˉ¹',
   '2': '⸍²',
   '3': '-₃',
   '4': '⸜₄',
@@ -46,10 +47,20 @@ const toneMap = {
   '6': 'ˍ₆'
 };
 
-function replaceToneSymbol(syllable) {
+// For HTML display
+const webToneMap = {
+  '1': 'ˉ¹',
+  '2': 'ˊ²',
+  '3': '˗₃',
+  '4': 'ˎ₄',
+  '5': 'ˏ₅',
+  '6': 'ˍ₆'
+};
+
+function replaceToneSymbol(syllable, map) {
   const tone = syllable.slice(-1); // Get the last character (the tone)
-  if (toneMap[tone]) {
-    return syllable.slice(0, -1) + toneMap[tone]; // Replace the tone
+  if (map[tone]) {
+    return syllable.slice(0, -1) + map[tone]; // Replace the tone
   }
   return syllable; // Return unchanged if no tone number
 }
@@ -65,16 +76,20 @@ async function generateOutput() {
   let htmlOutput = '';
   let jyutpingOutput = '';
   let jyutpingwTOutput = '';
+  let jyutpingwTDCOutput = '';
   for (let i = 0; i < jyutpingArray.length; i++) {
     const jyutpingStr = jyutpingArray[i][1];
-    const jyutpingWithTone = replaceToneSymbol(jyutpingStr);
+    const jyutpingWithTone = replaceToneSymbol(jyutpingStr, webToneMap);
+    const jyutpingWithToneDC = replaceToneSymbol(jyutpingStr, dcToneMap);
     htmlOutput += isJyutPing(jyutpingStr) ?
       `<ruby>${jyutpingArray[i][0]}<rt>${jyutpingWithTone}</rt></ruby> ` :
       jyutpingStr === '\n' ? '<br>' : jyutpingStr;
     // Also store the Jyutping with IPA tone letter into the 2D Jyutping array
     jyutpingArray[i].push(jyutpingWithTone);
+    jyutpingArray[i].push(jyutpingWithToneDC);
     jyutpingOutput += jyutpingStr + (isJyutPing(jyutpingStr) ? ' ' : '');
     jyutpingwTOutput += jyutpingWithTone + (isJyutPing(jyutpingStr) ? ' ' : '');
+    jyutpingwTDCOutput += jyutpingWithToneDC + (isJyutPing(jyutpingStr) ? ' ' : '');
   }
 
   const outputDiv = document.getElementById('output');
@@ -82,30 +97,36 @@ async function generateOutput() {
 
   // Create copy buttons
   outputDiv.appendChild(document.createElement('br'));
-  const copyJPBtn = document.createElement("button");
-  copyJPBtn.classList.add("btn");
+  const copyJPBtn = document.createElement('button');
+  copyJPBtn.classList.add('btn');
   copyJPBtn.setAttribute('id', 'copyJPBtn');
-  copyJPBtn.textContent = "Copy Jyutping";
+  copyJPBtn.textContent = 'Copy Jyutping';
   outputDiv.appendChild(copyJPBtn);
-  const copyJPwTBtn = document.createElement("button");
-  copyJPwTBtn.classList.add("btn");
+  const copyJPwTBtn = document.createElement('button');
+  copyJPwTBtn.classList.add('btn');
   copyJPwTBtn.setAttribute('id', 'copyJPwTBtn');
-  copyJPwTBtn.textContent = "Copy Jyutˍ₆ping-₃";
+  copyJPwTBtn.textContent = 'Copy Jyutˍ₆ping-₃';
   outputDiv.appendChild(copyJPwTBtn);
-  const copyAllBtn = document.createElement("button");
-  copyAllBtn.classList.add("btn");
+  const copyJPwTDCBtn = document.createElement('button');
+  copyJPwTDCBtn.classList.add('btn');
+  copyJPwTDCBtn.setAttribute('id', 'copyJPwTDCBtn');
+  copyJPwTDCBtn.textContent = 'Copy Jyutˍ₆ping-₃ for Discord';
+  outputDiv.appendChild(copyJPwTDCBtn);
+  const copyAllBtn = document.createElement('button');
+  copyAllBtn.classList.add('btn');
   copyAllBtn.setAttribute('id', 'copyAllBtn');
-  copyAllBtn.textContent = "Copy all text";
+  copyAllBtn.textContent = 'Copy all text';
   outputDiv.appendChild(copyAllBtn);
-  const copyHTMLBtn = document.createElement("button");
-  copyHTMLBtn.classList.add("btn");
+  const copyHTMLBtn = document.createElement('button');
+  copyHTMLBtn.classList.add('btn');
   copyHTMLBtn.setAttribute('id', 'copyHTMLBtn');
-  copyHTMLBtn.textContent = "Copy HTML";
+  copyHTMLBtn.textContent = 'Copy HTML';
   outputDiv.appendChild(copyHTMLBtn);
 
   // Add listeners to each button
   copyJPBtn.addEventListener('click', (e) => {copyToClipboard(jyutpingOutput)});
   copyJPwTBtn.addEventListener('click', (e) => {copyToClipboard(jyutpingwTOutput)});
+  copyJPwTDCBtn.addEventListener('click', (e) => {copyToClipboard(jyutpingwTDCOutput)});
   copyHTMLBtn.addEventListener('click', (e) => {copyToClipboard(htmlOutput)});
   
   updateStyles(); // Apply any existing styles
