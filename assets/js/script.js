@@ -1,15 +1,20 @@
 // URL to your raw JSON file on GitHub
 const jsonUrl = './assets/js/mandarin_cantonese_data.json';
 
+// Initialize a variable to store the fetched dictionary
+let cachedJyutpingWordMap = null;
+
 // Load JSON dict & return 2D array [[chinChar, jyut6ping3, jyutˍ₆ping˗₃]]
 async function getJyutping(inputChinString) {
   try {
-    // Fetch the dictionary from the external JSON file
-    const response = await fetch(jsonUrl);  // Adjust path as needed
-    const data = await response.json();
+    // Fetch the dictionary from the external JSON file only if it's not already cached
+    if (!cachedJyutpingWordMap) {
+      const response = await fetch(jsonUrl);  // Adjust path as needed
+      const data = await response.json();
 
-    // Extract the Jyutping word map from the JSON data
-    const jyutpingWordMap = data.jyutping_word_map;
+      // Extract the Jyutping word map from the JSON data
+      cachedJyutpingWordMap = data.jyutping_word_map;
+    }
 
     // Split the input string into individual characters or phrases
     const chinChars = inputChinString.split('');
@@ -20,9 +25,9 @@ async function getJyutping(inputChinString) {
     // Iterate through each character or phrase in the input string
     chinChars.forEach(chinChar => {
       // Check if the Chinese character exists in the Jyutping word map
-      if (jyutpingWordMap[chinChar]) {
+      if (cachedJyutpingWordMap[chinChar]) {
         // Add [chinChar, jyut6ping3] to the resulting 2D Jyutping array
-        jyutpingResult.push([chinChar, jyutpingWordMap[chinChar].join(' ')]);
+        jyutpingResult.push([chinChar, cachedJyutpingWordMap[chinChar].join(' ')]);
       } else {
         // If no match is found, add [chinChar, chinChar] instead
         jyutpingResult.push([chinChar, chinChar]);
