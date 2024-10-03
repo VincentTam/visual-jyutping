@@ -4,7 +4,7 @@ const jsonUrl = './assets/js/mandarin_cantonese_data.json';
 // Initialize a variable to store the fetched dictionary
 let cachedJyutpingWordMap = null;
 
-// Load JSON dict & return 2D array [[chinChar, jyut6ping3, jyutˍ₆ping˗₃]]
+// Load JSON dict & return 2D array [[chinChar, jyut6ping3]]
 async function getJyutping(inputChinString) {
   try {
     // Fetch the dictionary from the external JSON file only if it's not already cached
@@ -16,23 +16,39 @@ async function getJyutping(inputChinString) {
       cachedJyutpingWordMap = data.jyutping_word_map;
     }
 
-    // Split the input string into individual characters or phrases
-    const chinChars = inputChinString.split('');
-
     // Initialize an array to hold the resulting 2D Jyutping array
     let jyutpingResult = [];
 
-    // Iterate through each character or phrase in the input string
-    chinChars.forEach(chinChar => {
-      // Check if the Chinese character exists in the Jyutping word map
-      if (cachedJyutpingWordMap[chinChar]) {
-        // Add [chinChar, jyut6ping3] to the resulting 2D Jyutping array
-        jyutpingResult.push([chinChar, cachedJyutpingWordMap[chinChar].join(' ')]);
-      } else {
-        // If no match is found, add [chinChar, chinChar] instead
-        jyutpingResult.push([chinChar, chinChar]);
+    // Search substrings from Jyutping word map's keys
+    let left = 0;  // candidate words' common start index
+    let right = 0;  // candidate words' max end index
+    while (right < inputChinString.length) {
+      let longestFoundWord = '';
+      // Look up to 7 characters as longer words can be divided without tone change
+      while (right - left < 7) {
+        let candidateWord = inputChinString.substring(left, right + 1);
+        // Check if the candidate word exists in the Jyutping word map
+        if (cachedJyutpingWordMap[candidateWord]) {
+          longestFoundWord = candidateWord;
+        }
+        right++;  // Try take one more character
       }
-    });
+      // Record longest found word
+      if (longestFoundWord.length > 0) {
+        const jyutpingsInWord = cachedJyutpingWordMap[longestFoundWord];  // e.g. [jyut6, ping3]
+        for (let index = 0; index < longestFoundWord.length; index++) {
+          const chinCharInWord = longestFoundWord.substring(index, index + 1);
+          const jyutPingInWord = jyutpingsInWord[index];
+          jyutpingResult.push([chinCharInWord, jyutPingInWord]);
+        }
+        left += longestFoundWord.length;  // Look at remaining characters
+      } else {  // "inputChinString[left]" isn't a Chinese character
+        let currentChar = inputChinString.substring(left, left + 1);
+        jyutpingResult.push([currentChar, currentChar]);
+        left++;
+      }
+      right = left;  // Update right to ensure that left ≤ right
+    }
 
     // Return the concatenated Jyutping results
     return jyutpingResult;
