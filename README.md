@@ -35,5 +35,5 @@ Jyutping (粵拼) is the Cantonese pinyin.  The project is inspired by [Visual C
     <input type="color" id="rtColor" value="#404040" oninput="updateColors()">
   </div>
 </div>
-
+<script src="https://unpkg.com/to-jyutping@3.1.1/dist/index.js" defer></script>
 <script src="./assets/js/script.js"></script>
