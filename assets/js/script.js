@@ -53,9 +53,9 @@ window.addEventListener('load', function() {
       jyutpingwTDCOutput += jyutpingWithToneDC + (isJyutPing(jyutpingStr) ? ' ' : '')
     }
     // Remove excessive spaces
-    jyutpingOutput = jyutpingOutput.replace(/\s{2,}/g, ' ').trim()
-    jyutpingwTOutput = jyutpingwTOutput.replace(/\s{2,}/g, ' ').trim()
-    jyutpingwTDCOutput = jyutpingwTDCOutput.replace(/\s{2,}/g, ' ').trim()
+    jyutpingOutput = jyutpingOutput.replace(/ {2,}/g, ' ').trim()
+    jyutpingwTOutput = jyutpingwTOutput.replace(/ {2,}/g, ' ').trim()
+    jyutpingwTDCOutput = jyutpingwTDCOutput.replace(/ {2,}/g, ' ').trim()
 
     const allOutput = generateAllOutput()
 
